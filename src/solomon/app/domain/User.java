@@ -1,47 +1,52 @@
 package solomon.app.domain;
 
-import java.util.Scanner;
 
 public class User
 {
-	Scanner scanner = new Scanner(System.in);
+		private String email,firstName,lastName,id;
 	
-	private String email,firstName,lastName;
-	
-	public User()
+	public String getEmail()
 	{
-		System.out.print("Email: ");
-		System.out.println();
-		this.email = scanner.nextLine();
-		
-		System.out.print("First Name: ");
-		System.out.println();
-		this.firstName = scanner.nextLine();
-		
-		System.out.print("Last Name: ");
-		System.out.println();
-		this.lastName = scanner.nextLine();		
+		return email;
 	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return this.email;
 	}
-	
-	public String getFirstName() {
-		return firstName;
-		
+	public String getFirstName()
+	{
+		return firstName;	
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-		
+	public void setFirstName(String firstName)
+	{
+		this.firstName = firstName;	
 	}
-	public String getLastName() {
-		return lastName;
-		
+	public String getLastName() 
+	{
+		return lastName;	
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-		
-	}	
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;	
+	}
+	public String getId()
+	{
+		return id;	
+	}
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+	public String getFullName()
+	{
+		return this.firstName+" "+this.lastName;
+	}
 
 }
