@@ -1,20 +1,24 @@
-package solomon.repository;
+package main.java.solomon.repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import solomon.app.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class UserRepository
+import main.java.solomon.app.domain.User;
+
+public class UserInMemoryRepository implements UserRepository
 {
 	private final Map<String,User> userDatabase = new HashMap<>();
 	private final Map<String, User> userByEmail = new HashMap<>();
+	private static final Logger LOG = LoggerFactory.getLogger(UserInMemoryRepository.class);
 	
 	public void saveOrUpdate(User newUser)
 	{
-		System.out.println("The Email Id matches: "+newUser.getEmail());
 		userDatabase.put(newUser.getId(),newUser);
 		userByEmail.put(newUser.getEmail(), newUser);
+		LOG.info("Created the user {}",newUser);
 	}
 	
 	public User findByEmail(String email) 
@@ -27,6 +31,5 @@ public class UserRepository
 		{
 			return null;
 		}
-		
 	}
 }

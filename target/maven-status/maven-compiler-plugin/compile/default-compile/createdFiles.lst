@@ -1,0 +1,8 @@
+main\java\solomon\repository\UserRepository.class
+main\java\solomon\app\domain\RuntimeConsole.class
+main\java\solomon\repository\ColumnRepository.class
+main\java\solomon\repository\ColumnInMemoryRepository.class
+main\java\solomon\repository\CardInMemoryRepository.class
+main\java\solomon\repository\UserInMemoryRepository.class
+main\java\solomon\repository\CardRepository.class
+test\java\solomon\app\domain\AppTest.class

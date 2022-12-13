@@ -1,10 +1,15 @@
-package solomon.app.domain;
+package main.java.solomon.app.domain;
 
 
 public class User
 {
 		private String email,firstName,lastName,id;
 	
+	public User(String email)
+	{
+		this.email = email;
+	}
+
 	public String getEmail()
 	{
 		return email;
@@ -17,7 +22,7 @@ public class User
 	
 	@Override
 	public String toString()
-	{
+	{ 
 		return this.email;
 	}
 	public String getFirstName()

@@ -1,17 +1,20 @@
-package solomon.app.domain;
+package main.java.solomon.app.domain;
 import java.util.Scanner;
 import java.util.UUID;
-import solomon.repository.CardRepository;
-import solomon.repository.ColumnRepository;
-import solomon.repository.UserRepository;
+
+import main.java.solomon.repository.CardInMemoryRepository;
+import main.java.solomon.repository.CardRepository;
+import main.java.solomon.repository.ColumnInMemoryRepository;
+import main.java.solomon.repository.ColumnRepository;
+import main.java.solomon.repository.UserInMemoryRepository;
+import main.java.solomon.repository.UserRepository;
 
 public class RuntimeConsole
 {
 	public Scanner scanner = new Scanner(System.in);
-	UserRepository userRepository = new UserRepository();
-	ColumnRepository columnRepository = new ColumnRepository();
-	CardRepository cardRepository = new CardRepository();
-	
+	private final UserRepository userRepository = new UserInMemoryRepository();
+	private final ColumnRepository columnRepository = new ColumnInMemoryRepository();
+	private final CardRepository cardRepository = new CardInMemoryRepository();
 	public void run()
 	{	
 		System.out.println("Let's Get Started With This!!!");
@@ -85,7 +88,7 @@ public class RuntimeConsole
 		
 		else
 		{
-			User newUser = new User();
+			User newUser = new User(email);
 			System.out.print("Enter First Name: ");
 			String firstName = scanner.next();
 			System.out.println();
@@ -93,7 +96,6 @@ public class RuntimeConsole
 			String lastName = scanner.next();
 			System.out.println();
 			
-			newUser.setEmail(email);
 			newUser.setFirstName(firstName);
 			newUser.setLastName(lastName);
 			newUser.setId(UUID.randomUUID().toString());

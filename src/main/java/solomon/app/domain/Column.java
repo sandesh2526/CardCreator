@@ -1,4 +1,4 @@
-package solomon.app.domain;
+package main.java.solomon.app.domain;
 
 public class Column
 {

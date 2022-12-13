@@ -1,4 +1,4 @@
-package solomon.repository;
+package main.java.solomon.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import solomon.app.domain.Card;
-import solomon.app.domain.Column;
-import solomon.app.domain.User;
+import main.java.solomon.app.domain.Card;
+import main.java.solomon.app.domain.Column;
+import main.java.solomon.app.domain.User;
 
-public class CardRepository
+public class CardInMemoryRepository implements CardRepository
 {
 	private final Map<String, Card> cardByID = new LinkedHashMap<>();
 	private final Map<String, List<Card>> cardByAssignee = new HashMap<>();
