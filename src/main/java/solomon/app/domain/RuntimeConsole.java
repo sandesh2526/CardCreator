@@ -2,45 +2,68 @@ package main.java.solomon.app.domain;
 import java.util.Scanner;
 import java.util.UUID;
 
-import main.java.solomon.repository.CardInMemoryRepository;
 import main.java.solomon.repository.CardRepository;
-import main.java.solomon.repository.ColumnInMemoryRepository;
 import main.java.solomon.repository.ColumnRepository;
-import main.java.solomon.repository.UserInMemoryRepository;
 import main.java.solomon.repository.UserRepository;
+import main.java.solomon.repository.jdbc.CardJdbcRepository;
+import main.java.solomon.repository.jdbc.ColumnJdbcRepository;
+import main.java.solomon.repository.jdbc.InitiateDatabases;
+import main.java.solomon.repository.jdbc.UserJdbcRepository;
 
 public class RuntimeConsole
 {
 	public Scanner scanner = new Scanner(System.in);
-	private final UserRepository userRepository = new UserInMemoryRepository();
-	private final ColumnRepository columnRepository = new ColumnInMemoryRepository();
-	private final CardRepository cardRepository = new CardInMemoryRepository();
+	private final UserRepository userRepository = new UserJdbcRepository();
+	private final ColumnRepository columnRepository = new ColumnJdbcRepository();
+	private final CardRepository cardRepository = new CardJdbcRepository();
+	private static User currentUser = null;
 	public void run()
-	{	
+	{	 
+		scanner = new Scanner(System.in);
 		System.out.println("Let's Get Started With This!!!");
+		if(currentUser == null)
+		{
+			try
+			{
+				@SuppressWarnings("unused")
+				InitiateDatabases initiateDatabases = new InitiateDatabases();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 
-        User currentUser = enterUser();
+	        User newUser = enterUser();
+	        currentUser = newUser;
+		}
         
         System.out.println("Welcome, "+currentUser.getFullName()+"\nWhat you want to do?");
-        
-        do
-		{
-        	System.out.println("\n1. Create a card \t 2.Show Cards \t 0.Exit");
-        	int choice = scanner.nextInt();
-        	scanner.nextLine();
-        	if (choice == 1) 
-        	{
-        		createCard(currentUser);
-			}
-        	else if(choice == 2)
-        	{
-				showCards();
-			}
-        	else if(choice == 0)
-        	{
-				return;
-			}
-		}while(true);
+        try 
+        {
+			do
+    		{
+            	System.out.println("\n1. Create a card \t 2.Show Cards \t 0.Exit");
+            	int choice = scanner.nextInt();
+            	scanner.nextLine();
+            	if (choice == 1) 
+            	{
+            		createCard(currentUser);
+    			}
+            	else if(choice == 2)
+            	{
+    				showCards();
+    			}
+            	else if(choice == 0)
+            	{
+    				return;
+    			}
+    		}while(true);
+		} 
+        catch (Exception e)
+        {
+        	System.out.println("Please Enter one of the above options");
+        	run();
+		}
 	}
 	private void createCard(User currentUser)
 	{
@@ -51,6 +74,10 @@ public class RuntimeConsole
 		System.out.println("Column: ");
 		String co = scanner.nextLine();
 		System.out.println();
+		
+		System.out.println("Enter Card Description: ");
+		String description = scanner.nextLine();
+		
 		
 		Column newColumn = new Column(co);
 		
@@ -66,7 +93,10 @@ public class RuntimeConsole
 		
 		Card newCard = new Card(title,currentUser,newColumn);
 		
+		newCard.setDescription(description);
 		System.out.println("Assign the Card to Someone: ");
+		
+		newCard.setCreator(currentUser);
 		
 		User assignee = enterUser();
 		

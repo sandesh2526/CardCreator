@@ -1,4 +1,4 @@
-package main.java.solomon.repository;
+package main.java.solomon.repository.memnory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import main.java.solomon.app.domain.Column;
 import main.java.solomon.app.domain.RuntimeConsole;
+import main.java.solomon.repository.ColumnRepository;
 
 @SuppressWarnings("unused")
 public class ColumnInMemoryRepository implements ColumnRepository
@@ -33,7 +34,7 @@ public class ColumnInMemoryRepository implements ColumnRepository
 		columnByID.put(column.getId(),column);
 		columnByName.put(column.getName(), column);
 	}
-	
+
 	public Column findByName(String name)
 	{
 		if(columnByName.get(name) != null)
@@ -50,4 +51,5 @@ public class ColumnInMemoryRepository implements ColumnRepository
 	{
 		return  columnByName.values();
 	}
+	
 }

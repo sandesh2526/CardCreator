@@ -1,4 +1,4 @@
-package main.java.solomon.repository;
+package main.java.solomon.repository.memnory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import java.util.UUID;
 import main.java.solomon.app.domain.Card;
 import main.java.solomon.app.domain.Column;
 import main.java.solomon.app.domain.User;
+import main.java.solomon.repository.CardRepository;
 
 public class CardInMemoryRepository implements CardRepository
 {

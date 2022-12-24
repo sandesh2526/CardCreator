@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="test.java.solomon.app.domain.AppTest" time="1.096" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="test.java.solomon.app.domain.AppTest" time="1.657" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.9+7-LTS"/>
@@ -28,7 +28,7 @@
     <property name="os.name" value="Windows 10"/>
     <property name="classworlds.conf" value="C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-11.0.9\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-11.0.9\bin;C:\Program Files\nodejs\;C:\Program Files\Oracle\VirtualBox;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5\bin;C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5\bin;C:\Users\sande\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\sande\.m2\repository;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-11.0.9\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-11.0.9\bin;C:\Program Files\nodejs\;C:\Program Files\Oracle\VirtualBox;C:\Program Files\dotnet\;C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5\bin;C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5\bin;C:\Users\sande\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\sande\.m2\repository;;."/>
     <property name="maven.conf" value="C:\Program Files\apache-maven-3.8.5-bin\apache-maven-3.8.5/conf"/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="55.0"/>
@@ -65,5 +65,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="test.java.solomon.app.domain.AppTest" name="newCardCreationTest" time="1.096"/>
+  <testcase classname="test.java.solomon.app.domain.AppTest" name="newCardCreationTest" time="1.058"/>
+  <testcase classname="test.java.solomon.app.domain.AppTest" name="databaseCardCreationTest" time="0.599"/>
 </testsuite>

@@ -7,14 +7,12 @@ import org.slf4j.LoggerFactory;
 
 public class Card
 {
-	@SuppressWarnings("unused")
 	private String title,description,id;
-	@SuppressWarnings("unused")
 	private User assignee,creator;
+	
+
 	private Column column;
-	private static final Logger LOG = LoggerFactory.getLogger(Card.class);
-	
-	
+	private static final Logger LOG = LoggerFactory.getLogger(Card.class); 	
 	public Card(String title,User Creator,Column col)
 	{
 		
@@ -84,6 +82,21 @@ public class Card
 	public String getTitle()
 	{
 		return this.title;
+	}
+	
+	public User getCreator()
+	{
+		return creator;
+	}
+
+	public void setCreator(User creator)
+	{
+		this.creator = creator;
+	}
+
+	public String getDescription()
+	{
+		return this.description;
 	}
 
 }

@@ -1,4 +1,4 @@
-package main.java.solomon.repository;
+package main.java.solomon.repository.memnory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import main.java.solomon.app.domain.User;
+import main.java.solomon.repository.UserRepository;
 
 public class UserInMemoryRepository implements UserRepository
 {
