@@ -16,8 +16,8 @@ import main.java.solomon.repository.jdbc.CardJdbcRepository;
 import main.java.solomon.repository.jdbc.ColumnJdbcRepository;
 import main.java.solomon.repository.jdbc.InitiateDatabases;
 import main.java.solomon.repository.jdbc.UserJdbcRepository;
-import main.java.solomon.repository.memnory.CardInMemoryRepository;
-import main.java.solomon.repository.memnory.ColumnInMemoryRepository;
+import main.java.solomon.repository.memory.CardInMemoryRepository;
+import main.java.solomon.repository.memory.ColumnInMemoryRepository;
 
 public class AppTest {
 	

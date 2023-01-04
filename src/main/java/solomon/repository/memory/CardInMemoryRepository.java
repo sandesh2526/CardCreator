@@ -1,4 +1,4 @@
-package main.java.solomon.repository.memnory;
+package main.java.solomon.repository.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

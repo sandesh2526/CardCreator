@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class CardJdbcRepository implements CardRepository{
 		try
 		{
 			this.connection = DriverManager.getConnection(jdbcURL);
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO cards VALUES(?,?,?,?,?,?)");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO cards VALUES(?,?,?,?,?,?,?)");
 			newCard.setId(UUID.randomUUID().toString());
 			statement.setString(1, newCard.getId());
 			statement.setString(2, newCard.getTitle());
@@ -38,6 +39,7 @@ public class CardJdbcRepository implements CardRepository{
 			statement.setString(4, newCard.getColumn().getId());
 			statement.setString(5, newCard.getCreator().getId());
 			statement.setString(6, newCard.getAssignee().getId());
+			statement.setString(7, LocalDate.now().toString());
 			statement.executeUpdate();
 			
 			//Statement statement2 = connection.createStatement();

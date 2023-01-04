@@ -14,14 +14,15 @@ public class InitiateDatabases
 	{
 		connection = DriverManager.getConnection(jdbcURL);		
 		Statement stmt = connection.createStatement();
-		String sql = "CREATE TABLE users(ID varchar(36) primary key,EMAIL nvarchar(120) not null,"
+		String sql = 
+				"CREATE TABLE users(ID varchar(36) primary key,EMAIL nvarchar(120) not null,"
 				+ "FIRST_NAME varchar(50),LAST_NAME varchar(50));"
-				+ "CREATE TABLE columns(ID varchar (36) primary key,NAME NVARCHAR(50));"
-	/*Cards	*/	+ "CREATE TABLE cards(ID varchar(36) primary key,"
+	/* Column */+ "CREATE TABLE columns(ID varchar (36) primary key,NAME NVARCHAR(50));"
+	/* Cards*/	+ "CREATE TABLE cards(ID varchar(36) primary key,"
 				+ "TITLE nvarchar(255),DESCRIPTION clob,COLUMN_ID varchar(36),"
-				+ "CREATOR_ID varchar(36) not null,ASSIGNEE_ID varchar(36));";
+				+ "CREATOR_ID varchar(36) not null,ASSIGNEE_ID varchar(36),creationDate date);";
 		stmt.execute(sql);
-		stmt.executeUpdate("INSERT INTO cards VALUES('HASjfkasjkfn5dfcdfhu5c','SomeTitle','DESDESDESDESDESDEDSDESEDSESSDESDSESDS','jjfsdfkjsdfnsjk5d5f','Jdsjfnkjsnsdfnsd5dsdsd45d','dsjksajcnajasd')");
+		stmt.executeUpdate("INSERT INTO cards VALUES('HASjfkasjkfn5dfcdfhu5c','SomeTitle','DESDESDESDESDESDEDSDESEDSESSDESDSESDS','jjfsdfkjsdfnsjk5d5f','Jdsjfnkjsnsdfnsd5dsdsd45d','dsjksajcnajasd','2023-01-01')");
 		ResultSet rSet = stmt.executeQuery("Select * from cards");
 		if(rSet.next())
 		{

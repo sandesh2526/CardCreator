@@ -5,11 +5,6 @@
   <version>0.0.1-SNAPSHOT</version>
   
   <dependencies>
-	  <dependency>
-	    <groupId>org.flywaydb</groupId>
-	    <artifactId>flyway-core</artifactId>
-	    <version>9.10.0</version>
-	</dependency>
     <dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
