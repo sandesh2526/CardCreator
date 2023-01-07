@@ -27,6 +27,7 @@ public class Column
 
 	public void setId(String id)
 	{
+		System.out.println("Setting the id"+id);
 		this.id = id;
 	}
 }

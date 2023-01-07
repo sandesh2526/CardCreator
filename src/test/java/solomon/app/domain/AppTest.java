@@ -18,9 +18,96 @@ import main.java.solomon.repository.jdbc.InitiateDatabases;
 import main.java.solomon.repository.jdbc.UserJdbcRepository;
 import main.java.solomon.repository.memory.CardInMemoryRepository;
 import main.java.solomon.repository.memory.ColumnInMemoryRepository;
+import main.java.solomon.repository.mysql.CardMysqlRepository;
+import main.java.solomon.repository.mysql.ColumnMysqlRepository;
+import main.java.solomon.repository.mysql.InitiateMysqlDatabases;
+import main.java.solomon.repository.mysql.UserMysqlRepository;
 
 public class AppTest {
 	
+	//MySQL Production Test Cases
+	public Column creationOfColumnInMySQLDatabase(String columnName)
+	{
+		
+		ColumnMysqlRepository columnMysqlRepository = new ColumnMysqlRepository();
+		Column newColumn = columnMysqlRepository.findByName(columnName);
+		if(newColumn == null)
+		{
+			newColumn = new Column(columnName);
+			columnMysqlRepository.save(newColumn);
+			Column col = columnMysqlRepository.findByName(columnName);
+			assertNotNull(col);
+			assertEquals(columnName, col.getName());
+			List<Column> columns = columnMysqlRepository.findAllOrderedByPosition();
+			assertNotNull(columns);
+		}
+		return newColumn;
+	}
+	
+	public User userAdditionToMySqlDatabaseTest(String mailID)
+	{
+		UserMysqlRepository repo = new UserMysqlRepository();	
+		User newUser = repo.findByEmail(mailID);
+		if(newUser == null)
+		{
+			newUser = new User(mailID);
+			newUser.setFirstName("Falcon");
+			newUser.setLastName("Grey");
+			newUser.setId(UUID.randomUUID().toString());
+			repo.saveOrUpdate(newUser);
+			newUser = repo.findByEmail(mailID);
+			assertNotNull(newUser.getFirstName());
+			assertNotNull(newUser.getLastName());
+			assertNotNull(newUser.getId());			
+		}
+		return newUser;
+	}
+	
+	@Test
+	public void MysqlInitiateDatabase() throws SQLException {
+		@SuppressWarnings("unused")
+		InitiateMysqlDatabases in = new InitiateMysqlDatabases();
+		CardMysqlRepository repository = new CardMysqlRepository();
+		
+		Card newCard = new Card("The Stories Of Grim Reapper", userAdditionToMySqlDatabaseTest("FalconGreyOriginal@email.com"), creationOfColumnInMySQLDatabase("TODO"));
+		newCard.setDescription("HEY ADDED SOME DESCRIPTIO ");
+		User assignee = userAdditionToMySqlDatabaseTest("FlaconGreyFake@email.com");
+		newCard.assignTo(assignee);
+		repository.save(newCard);
+		Column s = new ColumnMysqlRepository().findByName("TODO");
+		
+		
+		User creator = userAdditionToMySqlDatabaseTest("Yotsuya@email.com");
+		Card newCard1 = new Card("I am standing on 100 Million Lives", creator, creationOfColumnInMySQLDatabase("DONE"));
+		newCard1.setDescription("Was Okay, need to check for season 3");
+		User assignee1 = userAdditionToMySqlDatabaseTest("salvatorCommandor@email.com");
+		newCard1.assignTo(assignee1);
+		repository.save(newCard1);
+		Column someColumn = new ColumnMysqlRepository().findByName("DONE");
+		
+		assertEquals(newCard1.getAssignee().getEmail(), repository.findByColumn(someColumn).get(0).getAssignee().getEmail());
+		//System.out.println("Column is Created: "+someColumn);
+		//System.out.println("Printing the ID from databaseCardCrationTest: "+s.getId()+"Name:"+s.getName());
+		List<Card> cards = repository.findByColumn(s);		
+		assertEquals(cards.get(0).getTitle(),"The Stories Of Grim Reapper");
+		/*for (Card card : cards)
+		{
+			System.out.println("The Card "+card.getTitle()+" is in column: "+card.getColumn().getName());
+		}*/
+		assertEquals(cards.get(0).getAssignee().getEmail(),"FlaconGreyFake@email.com");
+		
+		List<Card> cardsByAssignee = new ArrayList<>();
+		cardsByAssignee = repository.findByAssignee(assignee);
+		assertNotNull(cardsByAssignee.get(0));
+		/*for (Card card : cardsByAssignee)
+		{
+			System.out.println("The Card "+card.getTitle()+" is assigned to:"+card.getAssignee().getEmail());
+		}*/
+
+		System.out.println("This is just a test please see the Databases");
+	}
+	
+	//JDBC H2 Database Test Cases
 	public Column creationOfColumnInDatabase(String columnName)
 	{
 		Column newColumn = new Column(columnName);
@@ -69,7 +156,7 @@ public class AppTest {
 		assertNotNull(newUser.getId());
 		return newUser;
 	}
-
+	
 	@Test
 	public void databaseCardCreationTest()
 	{

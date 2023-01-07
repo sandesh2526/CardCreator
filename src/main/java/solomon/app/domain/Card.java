@@ -20,7 +20,6 @@ public class Card
 		this.creator = Creator;
 		this.column = col;
 		
-		 //System.out.println("\n"+LocalTime.now()+" User ["+Creator+"] created a card ["+title+"] in Column ["+col+"] \n");
 		LOG.info("User {} Created the card in the {} column with title: {}",creator,col,title);
 	}
 	
@@ -28,7 +27,7 @@ public class Card
 	{
 		this.assignee = assignee;
 
-		LOG.info("Card [{}] was assigned to [{}]", title, assignee.getEmail());
+		LOG.info("[assignTo] Card [{}] was assigned to [{}]", title, assignee.getEmail());
 
 		//System.out.println("\n"+LocalTime.now()+" Card ["+this.title+"] was assigned to ["+assignee+"] \n");
 	}
@@ -37,7 +36,7 @@ public class Card
 	{
 		this.column = col;
 		
-		LOG.info("Card {} moved to {} column"+this.title,col);
+		LOG.info("[moveTo] Card {} moved to {} column"+this.title,col);
 		//System.out.println(LocalTime.now()+" Card ["+this.title+"] was moved to ["+col+"] \n");
 	}
 	

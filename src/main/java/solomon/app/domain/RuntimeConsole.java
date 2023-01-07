@@ -5,18 +5,19 @@ import java.util.UUID;
 import main.java.solomon.repository.CardRepository;
 import main.java.solomon.repository.ColumnRepository;
 import main.java.solomon.repository.UserRepository;
-import main.java.solomon.repository.jdbc.CardJdbcRepository;
-import main.java.solomon.repository.jdbc.ColumnJdbcRepository;
-import main.java.solomon.repository.jdbc.InitiateDatabases;
-import main.java.solomon.repository.jdbc.UserJdbcRepository;
+import main.java.solomon.repository.mysql.CardMysqlRepository;
+import main.java.solomon.repository.mysql.ColumnMysqlRepository;
+import main.java.solomon.repository.mysql.InitiateMysqlDatabases;
+import main.java.solomon.repository.mysql.UserMysqlRepository;
 
 public class RuntimeConsole
 {
 	public Scanner scanner = new Scanner(System.in);
-	private final UserRepository userRepository = new UserJdbcRepository();
-	private final ColumnRepository columnRepository = new ColumnJdbcRepository();
-	private final CardRepository cardRepository = new CardJdbcRepository();
+	private final UserRepository userRepository = new UserMysqlRepository();
+	private final ColumnRepository columnRepository = new ColumnMysqlRepository();
+	private final CardRepository cardRepository = new CardMysqlRepository();
 	private static User currentUser = null;
+	
 	public void run()
 	{	 
 		scanner = new Scanner(System.in);
@@ -26,7 +27,7 @@ public class RuntimeConsole
 			try
 			{
 				@SuppressWarnings("unused")
-				InitiateDatabases initiateDatabases = new InitiateDatabases();
+				InitiateMysqlDatabases initiateDatabases = new InitiateMysqlDatabases();
 			}
 			catch (Exception e)
 			{
@@ -38,8 +39,6 @@ public class RuntimeConsole
 		}
         
         System.out.println("Welcome, "+currentUser.getFullName()+"\nWhat you want to do?");
-        try 
-        {
 			do
     		{
             	System.out.println("\n1. Create a card \t 2.Show Cards \t 0.Exit");
@@ -58,12 +57,6 @@ public class RuntimeConsole
     				return;
     			}
     		}while(true);
-		} 
-        catch (Exception e)
-        {
-        	System.out.println("Please Enter one of the above options");
-        	run();
-		}
 	}
 	private void createCard(User currentUser)
 	{
@@ -79,14 +72,11 @@ public class RuntimeConsole
 		String description = scanner.nextLine();
 		
 		
-		Column newColumn = new Column(co);
+		Column newColumn = columnRepository.findByName(co);
 		
-		if(columnRepository.findByName(co) != null)
+		if(newColumn == null)
 		{
-			newColumn = columnRepository.findByName(co);
-		}
-		else
-		{
+			newColumn = new Column(co);
 			columnRepository.save(newColumn);
 		}
 		System.out.println();
@@ -147,4 +137,8 @@ public class RuntimeConsole
             System.out.println(line);
         }
 	}
+	public static User getCurrentUser() {
+		return currentUser;
+	}
+
 }
