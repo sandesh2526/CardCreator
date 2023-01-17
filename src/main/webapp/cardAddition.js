@@ -45,15 +45,15 @@ function addingCards(objArray)
 }*/
 let objArray = []
 
-fetch('./info.json')
+fetch('./cards.json')
     .then((response) => response.json())
-    .then((json) => cardAddition(json.cards));
+    .then((json) => cardAddition(json));
 
 function showJson(json)
 {
     console.log("From the function:"+json.cards);
 }
-
+/*
 obj = {
     title:"SomeName",
     creator:"Someone"
@@ -68,14 +68,45 @@ obj1 =
 objArray.push(obj);
 objArray.push(obj1);
 
-cardAddition(objArray);
+console.log("Coming Here!!")
+
+cardAddition(objArray[0]);
+*/
 function cardAddition(objArray)
 {
+	for(var i=0;i<objArray.length;i++)
+	{
+		console.log(objArray[i].id)	
+		const card = '<div class="card">'+
+        '<p class="card-title"><span class="title-heading">Title:</span>'+objArray[i].title+'</p>'+
+        '<p class="card-assigned"><span class="assigned-heading">Assigned:</span>'+ objArray[i].assignee.email+'</p>'+
+        '<p class="card-created"><span class="created-heading">Created:</span>'+ objArray[i].creator.email+'</p>'+
+        '</div>';
+        const div = document.createElement("div");
+        div.innerHTML = card;
+        if(objArray[i].column.name === "TODO")
+        {
+			console.log("Here!!!")
+            var container1 = document.getElementsByClassName("container1");
+            container1[0].appendChild(div);    
+        }
+        else if(objArray[i].column.name === "InProgress")
+        {
+            var container2 = document.getElementsByClassName("container2");
+            container2[0].appendChild(div);            
+        }
+        else if(objArray[i].column.name === "Done")
+        {
+            var container3 = document.getElementsByClassName("container3");
+            container3[0].appendChild(div);    
+        }
+	}
+	/*
     objArray.forEach(obj => {
         const card = '<div class="card">'+
         '<p class="card-title"><span class="title-heading">Title:</span>'+obj.title+'</p>'+
-        '<p class="card-assigned"><span class="assigned-heading">Assigned:</span>'+ obj.assignedTo+'</p>'+
-        '<p class="card-created"><span class="created-heading">Created:</span>'+ obj.createdBy+'</p>'+
+        '<p class="card-assigned"><span class="assigned-heading">Assigned:</span>'+ obj.assigne.email+'</p>'+
+        '<p class="card-created"><span class="created-heading">Created:</span>'+ obj.creator.email+'</p>'+
         '</div>';
         const div = document.createElement("div");
         div.innerHTML = card;
@@ -95,5 +126,5 @@ function cardAddition(objArray)
             container3[0].appendChild(div);    
         }
     }); 
-    
+    */
 }

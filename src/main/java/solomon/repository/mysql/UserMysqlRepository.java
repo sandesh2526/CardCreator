@@ -1,6 +1,7 @@
 package main.java.solomon.repository.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,14 +14,15 @@ import main.java.solomon.app.domain.User;
 import main.java.solomon.repository.UserRepository;
 
 public class UserMysqlRepository implements UserRepository{
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
 	private static Logger LOG = LoggerFactory.getLogger(UserMysqlRepository.class);
-	private static Connection connection;
 	@Override
 	public void saveOrUpdate(User newUser)
 	{
 		try 
 		{
-			connection = InitiateMysqlDatabases.getConnection();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(jdbcURL,"root","password");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO users VALUES(?,?,?,?)");
 			statement.setString(1, newUser.getId());
 			statement.setString(2, newUser.getEmail());
@@ -29,7 +31,7 @@ public class UserMysqlRepository implements UserRepository{
 			int affectedRows = statement.executeUpdate();			
 			LOG.info("[saveOrUpdate] Added "+affectedRows+" new user");
 		} 
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			LOG.error("[saveOrUpdate] Unble to connect to the database, please check database configurations");
 			e.printStackTrace();
@@ -42,7 +44,8 @@ public class UserMysqlRepository implements UserRepository{
 		User newUser = null;
 		try
 		{
-			connection = InitiateMysqlDatabases.getConnection();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(jdbcURL,"root","password");
 			Statement statement = connection.createStatement();
 			String sql = "SELECT * FROM users where EMAIL='"+email+"'";
 			ResultSet rSet = statement.executeQuery(sql);
@@ -58,6 +61,9 @@ public class UserMysqlRepository implements UserRepository{
 		catch (SQLException e)
 		{
 			LOG.debug("[findByEmail] Please check the database configuration");
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return newUser;

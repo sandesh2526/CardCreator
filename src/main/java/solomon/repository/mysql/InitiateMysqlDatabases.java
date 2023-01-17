@@ -1,26 +1,29 @@
 package main.java.solomon.repository.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 public class InitiateMysqlDatabases 
 {
-	private BasicDataSource dataSource = new BasicDataSource();	
-	private String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
+	//private BasicDataSource dataSource = new BasicDataSource();	
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
 	private static Connection connection; 
 	private static Logger LOG = LoggerFactory.getLogger(InitiateMysqlDatabases.class);
 	
 	public InitiateMysqlDatabases() throws SQLException
 	{	//Setting up Database
-		dataSource.setUrl(jdbcURL);
+		/*dataSource.setUrl(jdbcURL);
 	    dataSource.setUsername("root");				
-	    dataSource.setPassword("password");
-		connection = dataSource.getConnection();
+	    dataSource.setPassword("password");*/
+		connection = DriverManager.getConnection(jdbcURL,"root","password");
+		//connection = dataSource.getConnection();
+	    System.out.println("Able to get the Connection");
 		Statement stmt = connection.createStatement();
 		
 		String query = "SHOW TABLES;";
@@ -44,6 +47,8 @@ public class InitiateMysqlDatabases
 				+ "CREATOR_ID varchar(36) not null,ASSIGNEE_ID varchar(36),creationDate date);";
 			LOG.info("[InitiateMysqlDatabases(Constructor)] Executing Qury: "+sql);
 			stmt.execute(sql);
+			
+			sql = "CREATE TABLE passkey(ID varchar(36) PRIMARY KEY NOT NULL,pass VARCHAR(32) NOT NULL)";
 		}
 	}
 	public static Connection getConnection()
@@ -52,7 +57,7 @@ public class InitiateMysqlDatabases
 		{
 			return connection;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			LOG.debug("[getConnection] Returning null connection object, please check the dataSource configuration");
 			e.printStackTrace();

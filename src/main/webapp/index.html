@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Card Creator</title>
-</head>
-<body>
-    <div class="loginForm">
-        <form action="LoginProcess" method="post">
-	        <fieldset>
-	            <input type="email" placeholder="Email">
-	            <input type="password" minlength="8" placeholder="Password">
-	            <button type="submit">Log In</button>	             
-	        </fieldset>
-	        <fieldset>
-	        	<button class="singUp">Sign Up</button>
-	        </fieldset>
-        </form>
-    </div>
-</body>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Card Creator</title> 
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class="loginForm">
+	        <form action="LoginProcess" method="post">
+		        <fieldset>
+		            <input type="email" name="email" placeholder="Email">
+		            <input type="password" name='passkey' minlength="8" placeholder="Password">
+		            <button type="submit">Log In</button>	             
+		        </fieldset>
+	        </form>
+	        	<fieldset> 
+		        	<p>Don't have a account? Sign In to create one</p>
+		        	<a href="SignUp.html"><button>Sign Up</button></a>
+		        </fieldset>
+	    </div>
+	</body>
 </html>

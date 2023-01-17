@@ -95,7 +95,7 @@ public class RuntimeConsole
 		cardRepository.save(newCard);
 		
 	}
-	private User enterUser()
+	public User enterUser()
 	{
 		System.out.print("Enter email: ");
 		String email = scanner.nextLine();

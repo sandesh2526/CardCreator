@@ -1,6 +1,7 @@
 package main.java.solomon.repository.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,8 @@ public class ColumnMysqlRepository implements ColumnRepository {
 
 	private static Connection connection;
 	private static final Logger LOG = LoggerFactory.getLogger(ColumnMysqlRepository.class); 
-	
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
+
 	public ColumnMysqlRepository()
 	{
 		System.out.println("ENTERING THE CONSTRUCTOR");
@@ -59,7 +61,9 @@ public class ColumnMysqlRepository implements ColumnRepository {
 		Column newColumn = null;
 		try
 		{
-			Statement stmt = InitiateMysqlDatabases.getConnection().createStatement();
+			//Statement stmt = InitiateMysqlDatabases.getConnection().createStatement();
+			connection = DriverManager.getConnection(jdbcURL,"root","password");
+			Statement stmt = connection.createStatement();
 			String sqlQuery = "Select * from columns where NAME='"+name+"'";
 			
 			ResultSet rSet = stmt.executeQuery(sqlQuery);

@@ -1,6 +1,7 @@
 package main.java.solomon.repository.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,19 +16,29 @@ import org.slf4j.LoggerFactory;
 
 import main.java.solomon.app.domain.Card;
 import main.java.solomon.app.domain.Column;
-import main.java.solomon.app.domain.RuntimeConsole;
 import main.java.solomon.app.domain.User;
 import main.java.solomon.repository.CardRepository;
 
 public class CardMysqlRepository implements CardRepository{
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
 	private Connection connection;
 	private static Logger LOG = LoggerFactory.getLogger(CardMysqlRepository.class);
+	public CardMysqlRepository()
+	{
+		try {
+			connection = DriverManager.getConnection(jdbcURL,"root","password");
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+	
 	@Override
 	public void save(Card newCard)
 	{
 		try
 		{
-			this.connection = InitiateMysqlDatabases.getConnection();
+			connection = DriverManager.getConnection(jdbcURL,"root","password");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO cards VALUES(?,?,?,?,?,?,?)");
 			newCard.setId(UUID.randomUUID().toString());
 			statement.setString(1, newCard.getId());
@@ -56,7 +67,7 @@ public class CardMysqlRepository implements CardRepository{
 			String sqlString = "SELECT M.ID AS CARD_ID,M.Title AS CARD_TITLE,M.Description AS CARD_DESCRIPTION,M.COL_ID,M.COL_NAME,M.Creator,M.CREATOR_FIRST_NAME,M.CREATOR_LAST_NAME,M.CREATOR_EMAIL,M.Assignee,F.First_Name AS ASSIGNEE_FIRST_NAME,F.last_name AS ASSIGNEE_LAST_NAME,F.email AS ASSIGNEE_EMAIL FROM "
 					+ "(SELECT S.ID,S.Title,S.Description,S.COL_ID,S.COL_NAME,S.Creator,U.First_Name AS CREATOR_FIRST_NAME,U.Last_NAME AS CREATOR_LAST_NAME,U.EMAIL AS CREATOR_EMAIL,S.Assignee FROM "
 					+ "(SELECT CA.ID,CA.Title,CA.Description,CA.CREATOR_ID AS CREATOR,CA.Assignee_ID AS ASSIGNEE,CL.ID AS COL_ID,CL.NAME AS COL_NAME FROM cards CA CROSS JOIN columns CL where CA.column_id = CL.ID AND CL.Name='"+column.getName()+"')"
-					+ "AS S CROSS JOIN USERS U WHERE S.CREATOR=U.ID AND S.CREATOR='"+RuntimeConsole.getCurrentUser().getId()+"') "
+					+ "AS S CROSS JOIN USERS U WHERE S.CREATOR=U.ID)" //AND S.CREATOR='"+RuntimeConsole.getCurrentUser().getId()+"') "
 					+ "AS M CROSS JOIN USERS F WHERE M.Assignee=F.ID";
 			
 			LOG.info("[findByColumn] EXECUTING THE FOLLOWING QUERY:\n"+sqlString);
