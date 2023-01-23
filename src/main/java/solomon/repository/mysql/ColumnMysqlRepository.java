@@ -36,8 +36,8 @@ public class ColumnMysqlRepository implements ColumnRepository {
 	{		
 		try
 		{
-			connection = InitiateMysqlDatabases.getConnection();
-			PreparedStatement statement = InitiateMysqlDatabases.getConnection().prepareStatement("INSERT INTO columns VALUES(?,?)");
+			connection = DriverManager.getConnection(jdbcURL,"root","password");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO columns VALUES(?,?)");
 			column.setId(UUID.randomUUID().toString());
 			
 			statement.setString(1, column.getId());
@@ -93,6 +93,7 @@ public class ColumnMysqlRepository implements ColumnRepository {
 	public List<Column> findAllOrderedByPosition() {
 		ArrayList<Column> storedColumns = new ArrayList<>();
 		try {
+			connection = DriverManager.getConnection(jdbcURL,"root","password");		
 			Statement statement = connection.createStatement();
 			ResultSet rSet = statement.executeQuery("SELECT * from columns");
 			while(rSet.next())

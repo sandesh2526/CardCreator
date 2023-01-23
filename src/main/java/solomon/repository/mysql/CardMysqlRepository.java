@@ -32,6 +32,68 @@ public class CardMysqlRepository implements CardRepository{
 			e.printStackTrace();
 		}		
 	}
+	public List<Card> findByEmail(String email)
+	{
+		ArrayList<Card> cards = new ArrayList<>();
+		try 
+		{
+			Statement statement = connection.createStatement();
+			
+			String sqlString = "SELECT M.ID AS CARD_ID,M.Title AS CARD_TITLE,M.Description AS CARD_DESCRIPTION,M.COL_ID,M.COL_NAME,M.Creator,M.CREATOR_FIRST_NAME,M.CREATOR_LAST_NAME,M.CREATOR_EMAIL,M.Assignee,F.First_Name AS ASSIGNEE_FIRST_NAME,F.last_name AS ASSIGNEE_LAST_NAME,F.email AS ASSIGNEE_EMAIL FROM "
+					+ "(SELECT S.ID,S.Title,S.Description,S.COL_ID,S.COL_NAME,S.Creator,U.First_Name AS CREATOR_FIRST_NAME,U.Last_NAME AS CREATOR_LAST_NAME,U.EMAIL AS CREATOR_EMAIL,S.Assignee FROM "
+					+ "(SELECT CA.ID,CA.Title,CA.Description,CA.CREATOR_ID AS CREATOR,CA.Assignee_ID AS ASSIGNEE,CL.ID AS COL_ID,CL.NAME AS COL_NAME FROM cards CA CROSS JOIN columns CL where CA.column_id = CL.ID)"
+					+ "AS S CROSS JOIN USERS U WHERE S.CREATOR=U.ID AND U.EMAIL='"+email+"') "
+					+ "AS M CROSS JOIN USERS F WHERE M.Assignee=F.ID";
+			
+			LOG.info("[findByEmail] EXECUTING THE FOLLOWING QUERY:\n"+sqlString);
+			
+			ResultSet rSet = statement.executeQuery(sqlString);
+			
+			if(rSet.next())
+			{
+				System.out.println("[CardMysqlRepository] [findByEmail] Thr Cards should not be empty now");
+				
+				do
+				{
+
+						User assignee = new User(rSet.getString(rSet.findColumn("Assignee_EMAIL")));
+						assignee.setFirstName(rSet.getString(rSet.findColumn("Assignee_FIRST_NAME")));
+						assignee.setLastName(rSet.getString(rSet.findColumn("Assignee_LAST_NAME")));
+						assignee.setId(rSet.getString(rSet.findColumn("Assignee")));
+						
+						User creator = new User(rSet.getString(rSet.findColumn("Creator_Email")));
+						creator.setFirstName(rSet.getString(rSet.findColumn("Creator_First_Name")));
+						creator.setLastName(rSet.getString(rSet.findColumn("Creator_Last_Name")));
+						creator.setId(rSet.getString(rSet.findColumn("Creator")));
+						
+						Column newColumn = new Column(rSet.getString(rSet.findColumn("COL_NAME")));
+						newColumn.setId(rSet.getString(rSet.findColumn("COL_ID")));
+						
+						Card newCard = new Card(rSet.getString(rSet.findColumn("CARD_TITLE")), creator, newColumn);
+						newCard.setAssignee(assignee);
+						newCard.setDescription(rSet.getString(rSet.findColumn("CARD_DESCRIPTION")));
+						newCard.setId(rSet.getString(rSet.findColumn("CARD_ID")));
+						
+						cards.add(newCard);
+						System.out.println("Assignee ID is: "+assignee.getEmail());
+						System.out.println("Creator Name is: "+creator.getFullName());
+						System.out.println("COLUMN NAME IS: "+newColumn.getName());						
+					
+					System.out.println();
+				}while(rSet.next());
+			}
+			else 
+			{
+				System.out.println("[CardMysqlRepository] [findByEmail] The Cards should be empty now");
+				LOG.info("[save] No Values yet hence No output");
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return cards;
+	}
 	
 	@Override
 	public void save(Card newCard)
@@ -57,6 +119,9 @@ public class CardMysqlRepository implements CardRepository{
 		}		
 	}
 
+	
+	
+	
 	@Override
 	public List<Card> findByColumn(Column column)
 	{

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import main.java.solomon.repository.mysql.GetSetPassword;
 import main.java.solomon.repository.mysql.UserMysqlRepository;
 
@@ -26,17 +27,19 @@ public class LoginProcess extends HttpServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		PrintWriter out = resp.getWriter();
+		HttpSession session = req.getSession();  
 		String emailString = req.getParameter("email");
 		String passkey = req.getParameter("passkey");
 		System.out.println("Email: ["+emailString+"] Password provided: ["+passkey+"] Expected: ["+gsp.GetPassword(emailString).equals(passkey)+"]");
-		System.out.println();
-		RequestDispatcher rd = req.getRequestDispatcher("./homepage.html");
+		RequestDispatcher rd = req.getRequestDispatcher("./Loader");
 		if(userRepo.findByEmail(emailString) != null && gsp.GetPassword(emailString).equals(passkey))
 		{
-			rd.forward(req, resp);
+			session.setAttribute("email", emailString);
+			resp.sendRedirect("Loader");
 		}
 		else {
 			out.print("<h3>Incorrect Credentials Please try again1!</h3>");			
 		}
+
 	}
 }

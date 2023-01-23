@@ -1,8 +1,9 @@
 .container{
     display: flex;
     flex-direction: row;
-    justify-content:space-between;
+    justify-content:space-around;
     max-width: 1000px;
+    align-items: flex-start;
 }
 h1{
     color: #ffbf00;
@@ -23,6 +24,7 @@ h1{
     padding: 5px;
     border-radius: 10px;
     color: #acd157;
+    align-items: flex-start;
 }
 
 p{
@@ -54,6 +56,8 @@ body
     margin-left: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    
 }
 .container3
 {
@@ -61,4 +65,92 @@ body
     margin-right: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
+
+/* Changes From Here*/
+.loginForm
+{
+    display: none; /* Hidden by default */
+	margin-top: 10%;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 15%;
+    top: 0;
+    width: 40%; /* Full width */
+    height: 50%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    text-align: center;
+    background-color:#0a0a23;
+}
+.adding_button
+{
+	position: relative;
+	justify-content: flex-start;
+    width: 5rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    margin: auto auto;
+    color: aliceblue;
+    background-color: #0a0a23;    
+    border: none;    
+}
+h3{
+    padding-top: 10px;
+    text-align: center;
+    color: aliceblue;
+}
+
+#specialButton{
+    display: inline;
+    margin: 10px;
+}
+#specialButton:hover
+{
+    cursor: pointer;
+    color: #d9db4e;
+    background-color: #46464f;
+}
+
+.adding_button:hover
+{
+    cursor: pointer;
+    background-color: rgb(69, 68, 68);
+    color: #f8577c;
+}
+.close
+{
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+.close:hover,
+.close:focus {
+  color: rgb(207, 74, 108);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button{
+    display: block;
+    margin: 20px auto;
+    padding: 5px;
+    width: 20%;
+    font-size: larger;
+}
+input
+{
+    display: block;
+    font-size: large;
+    height: 30px;
+    padding-left: 10px;
+    width: 40%;
+    margin: 10px auto;
+}
+#hidden
+{
+	display: none;
+}
+

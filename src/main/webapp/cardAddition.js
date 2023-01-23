@@ -43,9 +43,21 @@ function addingCards(objArray)
     });
     console.log("The element at third position is"+objArray[2])
 }*/
-let objArray = []
+//let objArray = []
 
-fetch('./cards.json')
+
+/*var myHeaders = new Headers();
+myHeaders.append('pragma', 'no-cache');
+myHeaders.append('cache-control', 'no-cache');
+
+var myInit = {
+  method: 'GET',
+  headers: myHeaders,
+};*/
+const ms = Date.now();
+const url = "cards.json"+'?dummy='+ms;
+console.log("Loading from URI: "+url)
+fetch(url)
     .then((response) => response.json())
     .then((json) => cardAddition(json));
 
@@ -86,7 +98,7 @@ function cardAddition(objArray)
         div.innerHTML = card;
         if(objArray[i].column.name === "TODO")
         {
-			console.log("Here!!!")
+			console.log(objArray[i].title);
             var container1 = document.getElementsByClassName("container1");
             container1[0].appendChild(div);    
         }
@@ -94,9 +106,11 @@ function cardAddition(objArray)
         {
             var container2 = document.getElementsByClassName("container2");
             container2[0].appendChild(div);            
+			console.log(objArray[i].title);
         }
-        else if(objArray[i].column.name === "Done")
+        else if(objArray[i].column.name === "DONE")
         {
+			console.log(objArray[i].title);
             var container3 = document.getElementsByClassName("container3");
             container3[0].appendChild(div);    
         }
@@ -127,4 +141,18 @@ function cardAddition(objArray)
         }
     }); 
     */
+    //Changes Coming up
 }
+
+    function openWindow(someString)
+	{
+		console.log(someString);
+		document.getElementById("hidden").value = someString;
+		console.log(document.getElementById("hidden").value);
+
+	    document.getElementsByClassName("loginForm")[0].style.display = "block";
+	}
+	function closeTheWindow()
+	{
+	    document.getElementsByClassName("loginForm")[0].style.display = "none";
+	}

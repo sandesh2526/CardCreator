@@ -12,9 +12,16 @@
         <div class="container">
             <div class="container1">
                 <header><h2>TODO</h2></header>
+                <button class="adding_button" onclick="openWindow('TODO')">
+                    +
+                </button>
             </div>
             <div class="container2">
                 <header><h2>In Progress</h2></header>
+                <button class="adding_button" onclick="openWindow('InProgress')">
+                    +
+                </button>
+                
                 <!--  
                 <div class="card">
                     <p class="card-title"><span class="title-heading">Title:</span>SomeTitle</p>
@@ -30,6 +37,9 @@
             </div>
             <div class="container3">
                 <header><h2>Done</h2></header>
+                <button class="adding_button" onclick="openWindow('Done')">
+                    +
+                </button>
                 <!--
                 <div class="card">
                     <p class="card-title"><span class="title-heading">Title:</span>SomeTitle</p>
@@ -45,6 +55,25 @@
             </div>
         </div>
         
+        <!-- Changes from here -->
+        
+        <div class="loginForm">
+            <form action="AddCard" method="post">
+                <span class="close" onclick="closeTheWindow()">&times;</span>
+                <h3>Add New Card</h3>
+                <fieldset>
+                    <input type="text" name="title" required placeholder="Title">
+                    <input type="text" name="description" required placeholder="Description">
+                    <input type="text" name="assignTo" required placeholder="Assign To">
+                    <input type="text" name="column" id="hidden" required>
+                    <span>
+                        <button type="submit" id="specialButton">Add Card</button>
+                    </span>
+                </fieldset>
+            </form>
+        </div>
+        
         <script src="cardAddition.js"></script>
+        <script src="window.js"></script>
     </body>
 </html>
