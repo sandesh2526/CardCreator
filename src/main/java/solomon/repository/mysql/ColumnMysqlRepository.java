@@ -19,24 +19,27 @@ import main.java.solomon.repository.ColumnRepository;
 public class ColumnMysqlRepository implements ColumnRepository {
 
 	private static Connection connection;
-	private static final Logger LOG = LoggerFactory.getLogger(ColumnMysqlRepository.class); 
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
+	private static Logger LOG; 
 
 	public ColumnMysqlRepository()
 	{
-		System.out.println("ENTERING THE CONSTRUCTOR");
-		Logger LOG = LoggerFactory.getLogger(ColumnMysqlRepository.class);
+		LOG = LoggerFactory.getLogger(ColumnMysqlRepository.class);
 		
-		connection = InitiateMysqlDatabases.getConnection();
+		try {
+			connection = GetDataSource.INSTANCE.dataSource().getConnection();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		LOG.info("[(Constructor)] CONNECTION IS SET");
 	}
-	//private Statement statement;
+
 	@Override
 	public void save(Column column)
 	{		
 		try
 		{
-			connection = DriverManager.getConnection(jdbcURL,"root","password");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO columns VALUES(?,?)");
 			column.setId(UUID.randomUUID().toString());
 			
@@ -61,8 +64,6 @@ public class ColumnMysqlRepository implements ColumnRepository {
 		Column newColumn = null;
 		try
 		{
-			//Statement stmt = InitiateMysqlDatabases.getConnection().createStatement();
-			connection = DriverManager.getConnection(jdbcURL,"root","password");
 			Statement stmt = connection.createStatement();
 			String sqlQuery = "Select * from columns where NAME='"+name+"'";
 			
@@ -93,7 +94,6 @@ public class ColumnMysqlRepository implements ColumnRepository {
 	public List<Column> findAllOrderedByPosition() {
 		ArrayList<Column> storedColumns = new ArrayList<>();
 		try {
-			connection = DriverManager.getConnection(jdbcURL,"root","password");		
 			Statement statement = connection.createStatement();
 			ResultSet rSet = statement.executeQuery("SELECT * from columns");
 			while(rSet.next())

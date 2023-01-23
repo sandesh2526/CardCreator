@@ -30,14 +30,15 @@ public class AddCard extends HttpServlet
 		UserRepository userRepository = new UserMysqlRepository();
 		ColumnRepository columnRepository = new ColumnMysqlRepository();
 		CardRepository cardRepository = new CardMysqlRepository();
-		HttpSession session=req.getSession(false);
-		System.out.println("[AddCard] [doPost] [checkingColumnRepository] Email is:"+(String)session.getAttribute("email"));
-		String creatorEmail = (String)session.getAttribute("email");
-		//super.doPost(req, resp);
+		
 		String title = req.getParameter("title");
 		String description = req.getParameter("description");
 		String assignTo = req.getParameter("assignTo");
 		String column = req.getParameter("column");
+		
+		HttpSession session=req.getSession(false);
+		System.out.println("[AddCard] [doPost] [checkingColumnRepository] Email is:"+(String)session.getAttribute("email"));
+		String creatorEmail = (String)session.getAttribute("email");
 		
 		if(columnRepository.findByName(column) == null)
 		{
@@ -60,7 +61,9 @@ public class AddCard extends HttpServlet
 		newCard.setDescription(description);
 		newCard.setAssignee(assigningTo);
 		cardRepository.save(newCard);
-        File file = new File( "C:\\Users\\sande\\Downloads\\CardCreator\\src\\main\\webapp\\cards.json");
+        
+		//Creating a JSON file and adding the cards to it
+		File file = new File( "C:\\Users\\sande\\Downloads\\CardCreator\\src\\main\\webapp\\cards.json");
         if(file.delete())
         {
         	System.out.println("We have Deleted the File");

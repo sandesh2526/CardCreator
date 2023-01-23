@@ -20,17 +20,16 @@ import main.java.solomon.app.domain.User;
 import main.java.solomon.repository.CardRepository;
 
 public class CardMysqlRepository implements CardRepository{
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
-	private Connection connection;
+	private static Connection connection;
 	private static Logger LOG = LoggerFactory.getLogger(CardMysqlRepository.class);
 	public CardMysqlRepository()
 	{
 		try {
-			connection = DriverManager.getConnection(jdbcURL,"root","password");
+			connection = GetDataSource.INSTANCE.dataSource().getConnection();
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 	public List<Card> findByEmail(String email)
 	{
@@ -100,7 +99,6 @@ public class CardMysqlRepository implements CardRepository{
 	{
 		try
 		{
-			connection = DriverManager.getConnection(jdbcURL,"root","password");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO cards VALUES(?,?,?,?,?,?,?)");
 			newCard.setId(UUID.randomUUID().toString());
 			statement.setString(1, newCard.getId());

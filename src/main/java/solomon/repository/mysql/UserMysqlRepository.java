@@ -14,15 +14,24 @@ import main.java.solomon.app.domain.User;
 import main.java.solomon.repository.UserRepository;
 
 public class UserMysqlRepository implements UserRepository{
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/card"; //database name at end, here 'card'
 	private static Logger LOG = LoggerFactory.getLogger(UserMysqlRepository.class);
+	private static Connection connection;
+	
+	public UserMysqlRepository()
+	{
+		try {
+			connection = GetDataSource.INSTANCE.dataSource().getConnection();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 	@Override
 	public void saveOrUpdate(User newUser)
 	{
 		try 
 		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(jdbcURL,"root","password");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO users VALUES(?,?,?,?)");
 			statement.setString(1, newUser.getId());
 			statement.setString(2, newUser.getEmail());
@@ -44,8 +53,6 @@ public class UserMysqlRepository implements UserRepository{
 		User newUser = null;
 		try
 		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(jdbcURL,"root","password");
 			Statement statement = connection.createStatement();
 			String sql = "SELECT * FROM users where EMAIL='"+email+"'";
 			ResultSet rSet = statement.executeQuery(sql);
@@ -57,11 +64,6 @@ public class UserMysqlRepository implements UserRepository{
 				newUser.setFirstName(rSet.getString(3));
 				newUser.setLastName(rSet.getString(4));
 			}
-		}
-		catch (SQLException e)
-		{
-			LOG.debug("[findByEmail] Please check the database configuration");
-			e.printStackTrace();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
