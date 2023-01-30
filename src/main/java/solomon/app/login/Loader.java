@@ -45,6 +45,7 @@ public class Loader extends HttpServlet
 			String Cards = gson.toJson(cards);
 			try { 
 				System.out.println("Ok");
+				// Specify the Directory file location where you will be storing your location
 				FileWriter fileWriter = new FileWriter("C:\\Users\\sande\\Downloads\\CardCreator\\src\\main\\webapp\\cards.json");
 				fileWriter.write(Cards);
 				fileWriter.close();
