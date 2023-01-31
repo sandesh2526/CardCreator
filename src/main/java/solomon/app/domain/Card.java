@@ -1,5 +1,4 @@
 package main.java.solomon.app.domain;
-//import org.graalvm.compiler.hotspot.replacements.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
